@@ -5,9 +5,14 @@
 </template>
 
 <style>
+    body,html{
+        max-width: 768px;
+        margin: 0 auto;
+        background-color: #fff;
+    }
    .app-container{
-     /*padding-top:40px;*/
-     padding-bottom:50px;
+     /*padding-top:40px;
+     padding-bottom:50px;*/
      overflow-x:hidden;
    }
 
@@ -32,12 +37,10 @@
     padding-top: 0;
     padding-bottom: 0;
 }
-
 .mui-bar-tab .mui-tab-item-tao .mui-icon~.mui-tab-label {
    font-size:11px;
    display:block;
    overflow:hidden;
    text-overflow:ellipsis;
-
 }
 </style>

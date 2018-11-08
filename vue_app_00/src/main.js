@@ -23,6 +23,9 @@ import VueResource from "vue-resource";
 //-将所有组件注册
 Vue.use(VueResource);
 
+//#配置VueResource 服务器根目录
+Vue.http.options.root = "http://127.0.0.1:3000/";
+
 new Vue({
   router,
   render: h => h(App)

@@ -19,8 +19,9 @@ Vue.use(Router)
 //  {path访问路径  component组件名称}
 export default new Router({
   routes: [
+    //{path:'/',component:HelloContainer},
+    {path:'/',redirect:"home"},
     {path:"/home/login",component:login},
-    {path:'/',component:HelloContainer},
     {path:"/test",component:TestContainer},
     {path:"/list",component:listContainer},
     {path:"/home",component:homeContainer}
