@@ -10,9 +10,10 @@ import listContainer from
 "./components/listContainer.vue"
 import homeContainer from
 "./components/tabbar/HomeContainer.vue"
-
 import login from
 "./components/home/loginContainer.vue"
+import goodsList from
+"./components/goods/goodList.vue"
 
 Vue.use(Router)
 //2:配置访问自定义组件路径
@@ -24,6 +25,7 @@ export default new Router({
     {path:"/home/login",component:login},
     {path:"/test",component:TestContainer},
     {path:"/list",component:listContainer},
-    {path:"/home",component:homeContainer}
+    {path:"/home",component:homeContainer},
+    {path:"/home/goodslist",component:goodsList}
   ]
 })
