@@ -1,6 +1,6 @@
 <template>
   <div class="app-goodList">
-    <header id="header" class="fixed">
+    <header  class="fixed">
       <div class="header-wrap">
         <div class="header-left">
           <router-link to="/home">
@@ -35,334 +35,57 @@
         </a>
       </div>
     </div>
-
     <div class="nctouch-main-layout mt40 mb20">
       <div id="product_list" class="list">
         <ul class="goods-search-list">
-          <li class="goods-item">
+          <li class="goods-item" v-for="item in list" :key="item.id">
             <span class="goods-pic">
-              <a href="#">
+              <router-link :to="'/home/goodsinfo?id='+item.id">
                 <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
+              </router-link>
             </span>
             <div class="goods-info">
               <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
+                <router-link :to="'/home/goodsinfo?id='+item.id">
+                  <h4>{{item.title}}</h4>
+                  <h6>{{item.subtitle}}</h6>
+                </router-link>
               </div>
               <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
+                <router-link :to="'/home/goodsinfo?id='+item.id">
+                  <span>￥<em>{{item.price}}</em></span>
+                </router-link>
               </div>
               <div class="goods-praise">
                 <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
+                  <span>{{item.pj}}条评价&nbsp;好评率{{item.hp}}%</span>
                 </a>
                 <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
+              </div>        
+            </div>         
           </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-          <li class="goods-item">
-            <span class="goods-pic">
-              <a href="#">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
-              </a>
-            </span>
-            <div class="goods-info">
-              <div class="goods-title">
-                <a href="#">
-                  <h4>荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银</h4>
-                  <h6>金属微边框轻薄本，薄至15.8mm，护眼全高清IPS屏，57.4Wh大容量电池</h6>
-                </a>
-              </div>
-              <div class="goods-price">
-                <a href="#">
-                  <span>￥<em>3799</em></span>
-                </a>
-              </div>
-              <div class="goods-praise">
-                <a href="#">
-                  <span>0条评价&nbsp好评率100%</span>
-                </a>
-                <div class="mall">自营</div>
-              </div>
-              
-            </div>
-            
-          </li>
-
-
         </ul>
       </div>
     </div>
-
-
-
-    
   </div>
 </template>
 <script>
   export default{
     data() {
-      return {}
-    }
+      return { list:[]}
+    },
+    methods:{
+      getDetails(){
+        this.$http.get("goodslist").then(result=>{
+          console.log(result);
+          this.list = result.body;
+        })
+      }
+    },
+    created() {
+      this.getDetails();
+      console.log(this.$route.params.id)
+    },
   }
 </script>
 <style>
@@ -370,9 +93,6 @@
     position: fixed;
     background:rgba(245, 248, 248, 0.95);
     width:100%;
-    max-width:768px;
-    
-    z-index: 2;
   }
   .app-goodList .header-wrap {
     position:relative;   /*相对定位*/

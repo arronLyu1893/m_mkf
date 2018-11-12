@@ -37,8 +37,8 @@
           <a href="#"><i></i>
           <p>购物车</p></a></li>
         <li>
-          <router-link to="/home/goodslist"><i></i>
-          <p>我的商城</p></router-link></li>
+          <a @click.stop.prevent="jumpShop()"><i></i>
+          <p>我的商城</p></a></li>
         <li>
           <a href="#"><i></i>
           <p>客户服务</p></a></li>
@@ -110,17 +110,6 @@
   </div>
 </template>
 <script>
-  window.onscroll=function(){
-    var scrollTop=
-      document.documentElement.scrollTop;
-    var header=document.getElementById("header");
-    if(scrollTop>=300){
-      header.style.backgroundColor="rgba(201,21,35,0.9)";
-    }else{
-      header.style.backgroundColor="rgba(201,21,35,0)";
-    }
-  }
-
   export default{
     data() {
       return {
@@ -129,6 +118,11 @@
       }
     },
     methods:{
+      jumpShop(){
+        //编程跳转方式
+        //this.$router.push("/home/goodslist?id=15");
+        this.$router.push("/home/goodslist/19");
+      },
       getImage(){
         this.$http.get("imagelist").then(result=>{
           //console.log(result.body);
@@ -140,20 +134,27 @@
           this.list2 = result.body;
         })
       },
-      handleScroll () {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        console.log(scrollTop)
-        // var op=scrollTop/300;
-        // header.style.backgroundColor="rgba(201,21,35,op)";
-        
-      }
+      // handleScroll () {
+      //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      //   console.log(scrollTop)
+      // }
     },
     created(){
+      window.onscroll=function(){
+        var scrollTop=
+          document.documentElement.scrollTop;
+        var header=document.getElementById("header");
+        if(scrollTop>=300){
+          header.style.backgroundColor="rgba(201,21,35,0.9)";
+        }else{
+          header.style.backgroundColor="rgba(201,21,35,0)";
+        }
+      },
       this.getImage();
       this.getImage2();
     },
     mounted () {
-      window.addEventListener('scroll', this.handleScroll)
+      // window.addEventListener('scroll', this.handleScroll)
     },
     
   }
