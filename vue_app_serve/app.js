@@ -15,7 +15,7 @@ app.use(express.static(__dirname+'/public'));
 //4:绑定监听端口
 app.listen(3000,()=>{ console.log("success"); });
 
-//功能一：学子商城首页轮播图
+//功能一：首页轮播图
 //GET   /imagelist   json
 app.get("/imagelist",(req,res)=>{
   var obj = [
@@ -28,11 +28,55 @@ app.get("/imagelist",(req,res)=>{
   res.send(obj);
 });
 
+//功能二:首页1F商品大图
+app.get("/f_imagelist",(req,res)=>{
+  var obj = [
+    {id:1,img_url:"http://127.0.0.1:3000/img/index_product/f1_1.jpg"},
+    {id:2,img_url:"http://127.0.0.1:3000/img/index_product/f1_2.jpg"},
+    {id:3,img_url:"http://127.0.0.1:3000/img/index_product/f1_3.jpg"},
+    {id:4,img_url:"http://127.0.0.1:3000/img/index_product/f1_4.jpg"},
+    {id:5,img_url:"http://127.0.0.1:3000/img/index_product/f1_5.jpg"},
+    {id:6,img_url:"http://127.0.0.1:3000/img/index_product/f1_6.jpg"},
+    {id:7,img_url:"http://127.0.0.1:3000/img/index_product/f1_7.png"},
+    {id:8,img_url:"http://127.0.0.1:3000/img/index_product/f1_8.png"},
+    {id:9,img_url:"http://127.0.0.1:3000/img/index_product/f1_9.png"},
+    {id:10,img_url:"http://127.0.0.1:3000/img/index_product/f1_10.png"}
+  ];
+  res.send(obj);
+});
+//功能三：商品列表页 动态加载 
+// app.get("/goodslist",(req,res)=>{
+//   var obj = [
+//     {id:1,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银",subtitle:"b1",price:"3799",pj:"100",hp:"95"},
+//     {id:2,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a2",subtitle:"b2",price:"4799",pj:"110",hp:"95"},
+//     {id:3,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a3",subtitle:"b3",price:"5799",pj:"120",hp:"95"},
+//     {id:4,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a4",subtitle:"b4",price:"6799",pj:"130",hp:"95"},
+//     {id:5,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a5",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:6,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a6",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:7,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a7",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:8,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a8",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:9,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a9",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:10,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a10",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:11,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a11",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:12,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a12",subtitle:"b5",price:"7799",pj:"140",hp:"95"}
+//   ];
+//   res.send(obj);
+// })
+//功能三：商品列表 
+app.get("/goodslit2",(req,res)=>{
+  var sql = "SELECT * FROM mkf_index_product ";
+  var obj = {};
+  pool.query(sql,[],(err,result)=>{
+    if(err)throw (err);
+    res.send(result);
+  })
+})
 
 
 
 //功能九：用户登录
 app.get("/login",(req,res)=>{
+  console.log(req.query.uname,req.query.upwd)
   //1:参数 2 uname upwd
   var uname = req.query.uname;
   var upwd = req.query.upwd;
