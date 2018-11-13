@@ -134,10 +134,10 @@
           this.list2 = result.body;
         })
       },
-      // handleScroll () {
-      //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-      //   console.log(scrollTop)
-      // }
+      handleScroll () {
+         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+         console.log(scrollTop)
+       }
     },
     created(){
       window.onscroll=function(){
@@ -154,7 +154,7 @@
       this.getImage2();
     },
     mounted () {
-      // window.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('scroll', this.handleScroll)
     },
     
   }

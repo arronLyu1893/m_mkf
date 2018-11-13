@@ -41,7 +41,7 @@
           <li class="goods-item" v-for="item in list" :key="item.id">
             <span class="goods-pic">
               <router-link :to="'/home/goodsinfo?id='+item.id">
-                <img src="http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg">
+                <img :src="item.pic">
               </router-link>
             </span>
             <div class="goods-info">
@@ -76,7 +76,7 @@
     },
     methods:{
       getDetails(){
-        this.$http.get("goodslist").then(result=>{
+        this.$http.get("goodslit2").then(result=>{
           console.log(result);
           this.list = result.body;
         })
