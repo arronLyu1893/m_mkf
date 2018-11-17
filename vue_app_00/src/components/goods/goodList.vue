@@ -1,5 +1,6 @@
 <template>
   <div class="app-goodList">
+    <!-- 搜索查询 -->
     <header  class="fixed">
       <div class="header-wrap">
         <div class="header-left">
@@ -19,10 +20,19 @@
             <i></i></a>
         </div>
       </div>
+      <div class="more-list none">
+        <ul>
+          <li><a href="#">首页</a></li>
+          <li><a href="#">购物</a></li>
+          <li><a href="#">我的商城</a></li>
+          <li><a href="#">消息</a></li>
+        </ul>
+      </div>
     </header>
+    <!-- 筛选 -->
     <div class="goods-search-list-nav fixed">
       <ul>
-        <li><a href="#">
+        <li @click="dropdown"><a href="#">
           综合排序<i></i></a></li>
         <li><a href="#">
           销量优先<i></i></a></li>
@@ -35,30 +45,38 @@
         </a>
       </div>
     </div>
+    <!-- 综合排序下拉菜单 -->
+    <div :class="drop?'':'none'" class="sort_inner ">
+      <span><a href="#" class="cur">综合排序<i></i></a></span>
+      <span><a href="#">价格从高到低<i></i></a></span>   
+      <span><a href="#">价格从低到高<i></i></a></span>
+      <span><a href="#">人气排序<i></i></a></span>
+    </div>
+    <!-- 商品列表 -->
     <div class="nctouch-main-layout mt40 mb20">
       <div id="product_list" class="list">
         <ul class="goods-search-list">
-          <li class="goods-item" v-for="item in list" :key="item.id">
+          <li class="goods-item" v-for="(item,i) in phone" :key="i">
             <span class="goods-pic">
-              <router-link :to="'/home/goodsinfo?id='+item.id">
-                <img :src="item.pic">
+              <router-link :to="'/home/goodsinfo?lid='+item.lid">
+                <img :src="'http://127.0.0.1:3000/'+pics[i].md">
               </router-link>
             </span>
             <div class="goods-info">
               <div class="goods-title">
-                <router-link :to="'/home/goodsinfo?id='+item.id">
+                <router-link :to="'/home/goodsinfo?lid='+item.lid">
                   <h4>{{item.title}}</h4>
                   <h6>{{item.subtitle}}</h6>
                 </router-link>
               </div>
               <div class="goods-price">
-                <router-link :to="'/home/goodsinfo?id='+item.id">
+                <router-link :to="'/home/goodsinfo?lid='+item.lid">
                   <span>￥<em>{{item.price}}</em></span>
                 </router-link>
               </div>
               <div class="goods-praise">
                 <a href="#">
-                  <span>{{item.pj}}条评价&nbsp;好评率{{item.hp}}%</span>
+                  <span>{{item.evaluate}}+条评价&nbsp;好评率{{item.hp}}%</span>
                 </a>
                 <div class="mall">自营</div>
               </div>        
@@ -69,17 +87,29 @@
     </div>
   </div>
 </template>
-<script>
+<script> 
   export default{
     data() {
-      return { list:[]}
+      return { phone:[],pics:[],drop:false,ishome:false}
+      
     },
     methods:{
       getDetails(){
-        this.$http.get("goodslit2").then(result=>{
-          console.log(result);
-          this.list = result.body;
+        var url="goodslit2"
+        this.$http.get(url).then(result=>{
+          this.phone=result.body.phone;
+          this.pics=result.body.pic
+          // this.list = result.body;
         })
+      },
+      dropdown(){
+        console.log(this.drop);
+        if(this.drop){
+          this.drop=false;
+        }
+        else{
+          this.drop=true;
+        }
       }
     },
     created() {
@@ -228,6 +258,46 @@
     opacity: 0.5;
     margin-top: 0.5rem;
   }
+  /*下拉菜单*/
+  .app-goodList .sort_inner{
+    position:fixed;
+    top: 5.21rem;
+    background-color:rgba(0, 0, 0, 0.1);
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .app-goodList .none {
+    display:none;
+  }
+  .app-goodList .sort_inner span{
+    background-color: #fff;
+    display: block;
+    padding:0 .5rem;
+  }
+  .app-goodList .sort_inner span a{
+    display: block;
+    color: #777;
+    font-size: 0.8rem;
+    line-height: 1.8rem;
+    height: 2.8rem;
+    padding: 0.7rem 1rem 0.7rem 0.68rem;
+    border-top: solid 0.05rem #EEE;
+  }
+  .app-goodList .sort_inner span a.cur{
+    color: #Ed5564;
+  }
+  .app-goodList .sort_inner span a i {
+    background:url('../../img/goodlist/ok.png') no-repeat 50% 50%;
+    background-size: 100%;
+    width: 1rem;
+    height: 1rem;
+    float:right;
+    display: none;
+  }
+  .app-goodList .sort_inner span:first-child  a i{
+    display:block;
+  }
   /*商品列表*/
   .app-goodList .nctouch-main-layout {
     z-index: 1;
@@ -289,17 +359,12 @@
   .app-goodList .nctouch-main-layout .goods-search-list .goods-info .goods-praise span{
     font-size:0.6rem;
     float: left;
-
   }
   .app-goodList .nctouch-main-layout .goods-search-list .goods-info .goods-praise .mall{
     color: #EC5464;
     font-size: 0.9rem;
     float:right;
     margin-right: 5px;
-
   }
-  
-
-
 </style>
 

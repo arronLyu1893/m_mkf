@@ -15,6 +15,9 @@ body,html{
 	margin: 0 auto;
 	background-color: #fff;
 }
+em,i{
+    font-style: normal;
+}
 .app-container{
 	/*padding-top:40px;
 	padding-bottom:50px;*/

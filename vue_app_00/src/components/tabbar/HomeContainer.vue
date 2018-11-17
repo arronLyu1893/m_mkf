@@ -114,7 +114,8 @@
     data() {
       return {
         list:[],
-        list2:[] 
+        list2:[],
+        ishome:true,
       }
     },
     methods:{
@@ -134,22 +135,24 @@
           this.list2 = result.body;
         })
       },
-      handleScroll () {
-         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-         console.log(scrollTop)
-       }
+      // handleScroll () {
+      //    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      //    console.log(scrollTop)
+      //  }
     },
     created(){
-      window.onscroll=function(){
-        var scrollTop=
-          document.documentElement.scrollTop;
-        var header=document.getElementById("header");
-        if(scrollTop>=300){
-          header.style.backgroundColor="rgba(201,21,35,0.9)";
-        }else{
-          header.style.backgroundColor="rgba(201,21,35,0)";
+      if(this.ishome){
+        window.onscroll=function(){
+          var scrollTop=
+            document.documentElement.scrollTop;
+          var header=document.getElementById("header");
+          if(scrollTop>=300){
+            header.style.backgroundColor="rgba(201,21,35,0.9)";
+          }else{
+            header.style.backgroundColor="rgba(201,21,35,0)";
+          }
         }
-      },
+      };
       this.getImage();
       this.getImage2();
     },

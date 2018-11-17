@@ -29,6 +29,6 @@ export default new Router({
     {path:"/list",component:listContainer},
     {path:"/home",component:homeContainer},
     {path:"/home/goodslist/:id",component:goodsList},
-    {path:"/home/goodsinfo",component:goodsInfo}
+    {path:"/home/goodsinfo/",component:goodsInfo}
   ]
 })
