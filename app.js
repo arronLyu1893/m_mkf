@@ -45,22 +45,85 @@ app.get("/f_imagelist",(req,res)=>{
   res.send(obj);
 });
 //功能三：商品列表页 动态加载 
-app.get("/goodslist",(req,res)=>{
-  var obj = [
-    {id:1,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银",subtitle:"b1",price:"3799",pj:"100",hp:"95"},
-    {id:2,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a2",subtitle:"b2",price:"4799",pj:"110",hp:"95"},
-    {id:3,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a3",subtitle:"b3",price:"5799",pj:"120",hp:"95"},
-    {id:4,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a4",subtitle:"b4",price:"6799",pj:"130",hp:"95"},
-    {id:5,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a5",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:6,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a6",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:7,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a7",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:8,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a8",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:9,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a9",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:10,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a10",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:11,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a11",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
-    {id:12,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a12",subtitle:"b5",price:"7799",pj:"140",hp:"95"}
-  ];
-  res.send(obj);
+// app.get("/goodslist",(req,res)=>{
+//   var obj = [
+//     {id:1,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"荣耀MagicBook 14英寸轻薄窄边框笔记本电脑（AMD锐龙5 8G 256G FHD IPS 正版Office）冰河银",subtitle:"b1",price:"3799",pj:"100",hp:"95"},
+//     {id:2,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a2",subtitle:"b2",price:"4799",pj:"110",hp:"95"},
+//     {id:3,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a3",subtitle:"b3",price:"5799",pj:"120",hp:"95"},
+//     {id:4,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a4",subtitle:"b4",price:"6799",pj:"130",hp:"95"},
+//     {id:5,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a5",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:6,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a6",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:7,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a7",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:8,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a8",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:9,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a9",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:10,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a10",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:11,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a11",subtitle:"b5",price:"7799",pj:"140",hp:"95"},
+//     {id:12,img_url:"http://127.0.0.1:3000/img/shop/goods/001_3_05941230936239867_360.jpg",title:"a12",subtitle:"b5",price:"7799",pj:"140",hp:"95"}
+//   ];
+//   res.send(obj);
+// })
+//功能三：商品列表 
+app.get("/goodslit2",(req,res)=>{
+  var obj = {};
+  obj.pic=[]
+  obj.phone=[]
+  var isok=0;
+  var sql = "SELECT * FROM mkf_phone_pic";
+  pool.query(sql,[],(err,result)=>{
+    if(err)throw (err);
+    obj.pic=result
+    isok+=50;
+    console.log(obj)
+    if(isok==100){
+      res.send(obj);
+      res.end;
+    }
+  })
+  var sql = "SELECT * FROM mkf_phone";
+  pool.query(sql,[],(err,result)=>{
+    if(err)throw (err);
+    obj.phone=result
+    isok+=50;
+    if(isok==100){
+      res.send(obj);
+      res.end;
+    }
+  })
+})
+//功能四：商品页详情
+app.get("/goodsinfo",(req,res)=>{
+  var lid=req.query.lid;
+  var obj={};
+  obj.product=[];
+  obj.pics=[];
+  var isok=0
+  //用lid查询当前商品信息
+  var sql1="SELECT * FROM mkf_phone WHERE lid=?";
+  //用lid查询当前商品图片列表
+  var sql2="SELECT * FROM mkf_phone_pic WHERE lid=?";
+  pool.query(sql1,[lid],(err,result)=>{
+    if(err) console.log(err);
+    console.log(result)
+    obj.product=result[0];
+    isok+=50
+    if(isok==100){
+      res.send(obj)
+    res.end();
+    }
+  })
+  pool.query(sql2,[lid],(err,result)=>{
+    if(err) console.log(err);
+    console.log(result)
+    obj.pics=result;
+    isok+=50
+    if(isok==100){
+      res.send(obj)
+    res.end();
+    }
+    
+  })
+
+
 })
 
 
@@ -85,3 +148,5 @@ app.get("/login",(req,res)=>{
   })
 
 });
+
+
