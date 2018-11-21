@@ -58,7 +58,7 @@
         <ul class="goods-search-list">
           <li class="goods-item" v-for="(item,i) in phone" :key="i">
             <span class="goods-pic">
-              <router-link :to="'/home/goodsinfo?lid='+item.lid">
+              <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
                 <img :src="'http://127.0.0.1:3000/'+pics[i].md">
               </router-link>
             </span>
@@ -91,7 +91,6 @@
   export default{
     data() {
       return { phone:[],pics:[],drop:false,ishome:false}
-      
     },
     methods:{
       getDetails(){
@@ -339,11 +338,11 @@
     color: #111;
   }
   .app-goodList .nctouch-main-layout .goods-search-list .goods-info .goods-title h4{
-    font-size: 1rem;
+    font-size: 0.9rem;
     overflow: hidden;
     height: 2rem;
     line-height: 1.1rem;
-    font-weight: 100;
+    font-weight: 400;
   }
   .app-goodList .nctouch-main-layout .goods-search-list .goods-info .goods-title h6 {
     font-size:0.4rem;

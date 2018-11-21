@@ -83,6 +83,44 @@
       <div class="nctouch-home-block">
         <a href="#"><img src="http://127.0.0.1:3000/img/poster3_s0_05895432640695894.png" ></a>
       </div>
+      <div class="nctouch-home-block">
+        <ul class="item-home5-pic">
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05895414309528633.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05895415150995368.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05895415482066706.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05895416110802533.jpg"></a></li>
+        </ul>
+      </div>
+      <div class="nctouch-home-block">
+        <div class="item-pic">
+          <a href="#">
+            <img src="http://127.0.0.1:3000/m_img/special/s0/s0_05872427174157909.jpg" >
+          </a>
+        </div>
+      </div>
+      <div class="nctouch-home-block">
+        <ul>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05912720194905352.jpg" ></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05841867271206667.jpg" ></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05844442763109066.jpg" ></a></li>
+        </ul>
+      </div>
+      <div class="nctouch-home-block">
+        <ul class="item-home5-pic">
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960402510746550.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960402646659514.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960402792970390.jpg"></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960402917220379.jpg"></a></li>
+        </ul>
+      </div>
+      <div class="nctouch-home-block">
+        <ul class="item-pic-list">
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05908340773680413.png" ></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960399825855666.jpg" ></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960401097690412.jpg" ></a></li>
+          <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960400749897392.jpg" ></a></li>
+        </ul>
+      </div>  
 
 
       
@@ -122,7 +160,7 @@
       jumpShop(){
         //编程跳转方式
         //this.$router.push("/home/goodslist?id=15");
-        this.$router.push("/home/goodslist/19");
+        this.$router.push("/home/goods/goodslist/19");
       },
       getImage(){
         this.$http.get("imagelist").then(result=>{
@@ -317,6 +355,30 @@
     float:left;
     height: 109px;
   }
+  .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(5) ul {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .app-homeContainer .ntc-layout .nctouch-home-block .item-home5-pic li {
+    width: 25%;
+    float: left;
+  }
+  .nctouch-home-block .item-pic {
+    font-size: 0;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(7) li {
+    width: 50%;
+    float: left;
+  }
+  .nctouch-home-block .item-pic-list li{
+    width: 50%;
+    float: left;
+  }
+  
 
 
 
