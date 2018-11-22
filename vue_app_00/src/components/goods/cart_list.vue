@@ -2,12 +2,12 @@
   <div class="app-cartList">
     <!-- 导航 -->
     <header id="header" class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/home/goods/goodsinfo')"></a>
       <a class="mui-icon mui-icon-bars mui-icon-right-nav mui-pull-right"> 
       </a>
 			<h1 class="mui-title">购物车</h1>
 		</header>
-    <!-- 选择 -->
+    <!-- 购物车列表 -->
     <div class="cart-list-wrap">
       <div class="nct-cart-con">
         <dl>
@@ -21,38 +21,80 @@
         <ul>
           <li>
             <div class="goods-check">
-              <input type="checkbox" checked>
+              <input type="checkbox" >
             </div>
-            <div class="cart-details"> 
-              
-                  <div class="goods-pic"> 
-                      <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">            
-                  </div>
-                  <div class="goods-info">
-                    <div class="goods-title">            
-                        <h4>OPPO Find X曲面全景屏 冰珀蓝 8G+128G 全网通</h4>               
-                    </div>
-                    <div class="goods-price">
-                      <span class="price">￥<em>6988</em></span>
-                      
-                    </div>     
-                  </div>                 
+            <div class="cart-details">           
+              <div class="goods-pic"> 
+                  <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">            
+              </div>
+              <div class="goods-info">
+                <div class="goods-title">            
+                    <h4>OPPO Find X曲面全景屏 冰珀蓝 8G+128G 全网通</h4>   
+                </div>
+                <div class="goods-price">
+                  <span class="price">￥<em>6988</em></span>  
+                  <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
+                    <button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub">-</button>
+                    <input id="test" class="mui-input-numbox" type="number" value="1" v-model="val"/>
+                    <button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd">+</button>
+                  </div>            
+                </div>    
+              </div>                 
             </div>
-          
-          </li>
+          </li>             
         </ul>
-
       </div>
-
 		</div>
+    <div class="cartlistitem">
+        <div style="padding-left:12px;margin-bottom: 10px;">
+            <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">官方自营 {{isCheckAll}}</yd-checkbox>
+        </div>
+
+        <yd-checklist v-model="checklist3" ref="checklistDemo" :callback="change">
+            <yd-checklist-item val="1">
+                <div style="height: 50px;line-height: 50px;">1 -- 值：{{checklist3}}</div>
+            </yd-checklist-item>
+            <yd-checklist-item val="2">
+                <div style="height: 50px;line-height: 50px;">2</div>
+            </yd-checklist-item>
+            <yd-checklist-item val="3">
+                <div style="height: 50px;line-height: 50px;">3</div>
+            </yd-checklist-item>
+        </yd-checklist>
+    </div>
   </div>
 </template>
 <script>
   export default {
     data() {
+      return {
+        val:1,
+        checklist3:[],
+        isCheckAll:false
+      }
 
     },
     methods:{
+      jump(url){
+        this.$router.push(url);
+      },
+      change(value, isCheckAll) {
+        this.isCheckAll = isCheckAll;
+      },
+      checkAll() {
+        this.isCheckAll = !this.isCheckAll;
+        this.$refs.checklistDemo.$emit('ydui.checklist.checkall', this.isCheckAll);
+      },
+      goodAdd(){
+        if(this.val<=8){
+          this.val++;
+        }
+      },
+      goodSub(){
+        if(this.val>1){
+        this.val--;
+        }
+      }
 
     },
     created() {
@@ -77,6 +119,7 @@
 .app-cartList .cart-list-wrap dl {
   display:block;
   border-bottom: solid 0.05rem #ddd;
+  margin: 0;
 }
 .app-cartList .cart-list-wrap dl dt{
   display:block;
@@ -88,14 +131,32 @@
   margin-right: 0.5rem;
   vertical-align: top;
 }
-.app-cartList .cart-list-wrap .store-check input {
-  width: 1.2rem;
-  height: 1.2rem;
+input[type="checkbox"] {
+    position: relative;
+    background-color: #F5F5F5;
+    border: 0.05rem solid #eee;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: middle;
+    width: 1.2rem;
+    height: 1.2rem;
+    -webkit-appearance: none;
 }
-/* .app-cartList .cart-list-wrap input [type="checkbox"]:checked {
-  background-color: #f00;
-  border-color: #f00;
-} */
+input[type="checkbox"]:checked{
+  background-color: #ed5564;
+  border-color: #ed5564;
+}
+input[type="checkbox"]:checked:after{
+  content: '';
+  position: absolute;
+  left: 0.17rem;
+  top: 0.18rem;
+  width: 0.7rem;
+  height: 0.4rem;
+  border-left: 0.065rem solid #fff;
+  border-bottom: 0.065rem solid #fff;
+  -webkit-transform: rotate(-45deg);
+}
 
 .app-cartList .cart-list-wrap i.icon-store {
   display: inline-block;
@@ -106,6 +167,9 @@
   margin-right: 0.5rem;
   vertical-align: middle;
 }
+.app-cartList .cart-list-wrap ul {
+  margin: 0 0;
+}
 .app-cartList .cart-list-wrap ul li {
   position: relative;
 }
@@ -113,10 +177,6 @@
   position: absolute;
   top: 1.5rem;
   left: 0.9rem;
-}
-.app-cartList .cart-list-wrap ul .goods-check input {
-  width: 1.2rem;
-  height: 1.2rem;
 }
 /*商品信息*/
   .cart-details {
@@ -162,31 +222,14 @@
     font-weight: 600;
     line-height: 1rem;
   }
-  .cart-details .goods-info  .mall{
-    color: #888;
-    font-size: 0.7rem;
-    font-weight: 600;
-    float:right;
-    margin-right: 10px;
-  }
-  .cart-details .goods-close {
-    position:absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    background: #fff;
-    border:1px solid #fff;
-    border-radius: 100%;
-    top: -0.75rem;
-    right: 0rem;
-  }
-  .cart-details .goods-close i{
-    display:block;
-    background:url('../../img/goodlist/close_window.png') no-repeat 50% 50%;
-    background-size: contain;
-    width: 1.2rem;
-    height: 1.2rem;
-    margin: 0.1rem 0 0 0.0819rem;
-  }
+  /*加减*/
+  .cart-details .mui-numbox{
+    margin-left: 5.6rem;
+    height: 25px;
 
+  }
+  .cartlistitem {
+    margin-top: 50px;
+  }
 </style>
 

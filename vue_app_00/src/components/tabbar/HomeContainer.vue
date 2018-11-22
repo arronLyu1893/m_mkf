@@ -5,7 +5,7 @@
     <header id="header"  class="transparent">
       <div class="logo"></div>
       <div class="header-wrap">
-        <a href="#" class="header-input">
+        <a href="#" class="header-input" @click.stop.prevent="jumpShop('/home/goods/search')">
           <i></i>
           <span class="search-input" placeholder="文具">文具</span>
         </a>
@@ -37,7 +37,7 @@
           <a href="#"><i></i>
           <p>购物车</p></a></li>
         <li>
-          <a @click.stop.prevent="jumpShop()"><i></i>
+          <a @click.stop.prevent="jumpShop('/home/goods/goodslist/19')"><i></i>
           <p>我的商城</p></a></li>
         <li>
           <a href="#"><i></i>
@@ -157,10 +157,10 @@
       }
     },
     methods:{
-      jumpShop(){
+      jumpShop(url){
         //编程跳转方式
         //this.$router.push("/home/goodslist?id=15");
-        this.$router.push("/home/goods/goodslist/19");
+        this.$router.push(url);
       },
       getImage(){
         this.$http.get("imagelist").then(result=>{

@@ -92,13 +92,13 @@
               <i></i>
               <p>客服</p>
             </a>  
-            <a href="#" class="cart">
+            <a @click.stop.prevent="jump('/home/goods/cartlist?lid=1')" class="cart">
               <i></i>
               <p>购物车</p>
             </a>
           </div>
           <div class="buy-handle">
-            <a href="#" class="animation-up add-cart">加入购物车</a>
+            <a href="#" class="animation-up add-cart" @click="showCart" >加入购物车</a>
             <a href="#" class="animation-up buy-now" @click="showCart" >立即购买</a>
           </div>
         </div>
@@ -198,6 +198,9 @@
       }
     },
     methods:{
+      jump(url){
+        this.$router.push(url);
+      },
       goodAdd(){
         if(this.val<=8){
           this.val++;
