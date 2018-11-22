@@ -2,19 +2,31 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
+
 import'mint-ui/lib/style.css'
 
 Vue.config.productionTip = false
 import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 
+//引入yd-ui
+import {CheckList,CheckListItem} from 'vue-ydui/dist/lib.rem/checklist';
+//注册
+Vue.component(CheckList.name, CheckList);
+Vue.component(CheckListItem.name,CheckListItem);
+
 //引入组件mint-ui库Header
 //-引入指定组件
-import {Header,Swipe,SwipeItem} from "mint-ui";
+import {Header,Swipe,SwipeItem,Search} from "mint-ui";
 //-注册当前项目组
 Vue.component(Header.name,Header);
 Vue.component(Swipe.name,Swipe);
 Vue.component(SwipeItem.name,SwipeItem);
+Vue.component(Search.name,Search);
+
+
+
+
 
 console.log(Header.name);
 //2.引入vue-resource 发送ajax

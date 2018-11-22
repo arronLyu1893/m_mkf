@@ -16,11 +16,16 @@ import goodsList from
 "./components/goods/goodList.vue"
 import goodsInfo from
 "./components/goods/goodsinfo.vue"
+import cartList from
+"./components/goods/cart_list.vue"
+import search from
+"./components/goods/search.vue"
 
 Vue.use(Router)
 //2:配置访问自定义组件路径
 //  {path访问路径  component组件名称}
 export default new Router({
+  mode:'history',
   routes: [
     //{path:'/',component:HelloContainer},
     {path:'/',redirect:"home"},
@@ -28,7 +33,9 @@ export default new Router({
     {path:"/test",component:TestContainer},
     {path:"/list",component:listContainer},
     {path:"/home",component:homeContainer},
-    {path:"/home/goodslist/:id",component:goodsList},
-    {path:"/home/goodsinfo/",component:goodsInfo}
+    {path:"/home/goods/goodslist/:id",component:goodsList},
+    {path:"/home/goods/goodsinfo",component:goodsInfo},
+    {path:"/home/goods/cartlist",component:cartList},
+    {path:"/home/goods/search",component:search}
   ]
 })
