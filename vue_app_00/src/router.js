@@ -33,7 +33,7 @@ export default new Router({
     {path:"/test",component:TestContainer},
     {path:"/list",component:listContainer},
     {path:"/home",component:homeContainer},
-    {path:"/home/goods/goodslist/:id",component:goodsList},
+    {path:"/home/goods/goodslist",component:goodsList},
     {path:"/home/goods/goodsinfo",component:goodsInfo},
     {path:"/home/goods/cartlist",component:cartList},
     {path:"/home/goods/search",component:search}
