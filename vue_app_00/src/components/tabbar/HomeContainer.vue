@@ -34,10 +34,12 @@
           <a href="#"><i></i>
           <p>分类</p></a></li>
         <li>
-          <a href="#"><i></i>
+          <a @click.stop.prevent="jumpShop('/home/goods/cartlist')">
+          
+          <i></i><span class="mui-badge">0</span>
           <p>购物车</p></a></li>
         <li>
-          <a @click.stop.prevent="jumpShop('/home/goods/goodslist/19')"><i></i>
+          <a @click.stop.prevent="jumpShop('/home/goods/goodslist')"><i></i>
           <p>我的商城</p></a></li>
         <li>
           <a href="#"><i></i>
@@ -267,7 +269,14 @@
     margin: 10px auto 0;
   }
   .ntc-home ul li a{
+    position: relative;
     text-align: center;
+  }
+  /********购物车角标*********/
+  .ntc-home .mui-badge {
+    position: absolute;
+    bottom:30px;
+    left:30px;
   }
   .ntc-home ul li a i{
      display: block;

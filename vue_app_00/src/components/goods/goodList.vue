@@ -59,18 +59,18 @@
           <li class="goods-item" v-for="(item,i) in phone" :key="i">
             <span class="goods-pic">
               <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
-                <img :src="'http://127.0.0.1:3000/'+pics[i].md">
+                <img :src="'http://127.0.0.1:3000/'+item.md">
               </router-link>
             </span>
             <div class="goods-info">
               <div class="goods-title">
-                <router-link :to="'/home/goodsinfo?lid='+item.lid">
+                <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
                   <h4>{{item.title}}</h4>
                   <h6>{{item.subtitle}}</h6>
                 </router-link>
               </div>
               <div class="goods-price">
-                <router-link :to="'/home/goodsinfo?lid='+item.lid">
+                <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
                   <span>￥<em>{{item.price}}</em></span>
                 </router-link>
               </div>
@@ -98,6 +98,7 @@
         this.$http.get(url).then(result=>{
           this.phone=result.body.phone;
           this.pics=result.body.pic
+          console.log(result.body.pic)
           // this.list = result.body;
         })
       },
@@ -113,7 +114,7 @@
     },
     created() {
       this.getDetails();
-      console.log(this.$route.params.id)
+      // console.log(this.$route.params.id)
     },
   }
 </script>

@@ -112,7 +112,7 @@
           </div>
           <div class="cart-details"> 
                   <div class="goods-pic"> 
-                      <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">              
+                      <img :src="'http://127.0.0.1:3000/'+product.md">              
                   </div>
                   <div class="goods-info">
                     <div class="goods-title">            
@@ -175,7 +175,7 @@
               </a>
             </div>
             <div class="buy-handle">
-              <a href="#" class="animation-up add-cart">加入购物车</a>
+              <a href="#" class="animation-up add-cart" @click="addCartTo()">加入购物车</a>
               <a href="#" class="animation-up buy-now">立即购买</a>
             </div>
           </div>
@@ -198,6 +198,16 @@
       }
     },
     methods:{
+      addCartTo(){
+        console.log(this.$route.params.id);
+        //1:将商品编号和数量保存至服务器
+        var url="addCart";
+        //1.1:获取商品编号
+        //1.2:获取商品数量
+        //1.3发送请求
+        //2:更新HOME页面，购物车数量角标
+
+      },
       jump(url){
         this.$router.push(url);
       },

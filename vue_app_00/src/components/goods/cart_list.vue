@@ -9,96 +9,173 @@
 		</header>
     <!-- 购物车列表 -->
     <div class="cart-list-wrap">
-      <div class="nct-cart-con">
-        <dl>
-          <dt>
-            <span class="store-check">
-              <input type="checkbox" checked>
-            </span>
-            <i class="icon-store"></i>官方自营
-            </dt>
-        </dl>
-        <ul>
-          <li>
-            <div class="goods-check">
-              <input type="checkbox" >
-            </div>
-            <div class="cart-details">           
-              <div class="goods-pic"> 
-                  <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">            
-              </div>
-              <div class="goods-info">
-                <div class="goods-title">            
-                    <h4>OPPO Find X曲面全景屏 冰珀蓝 8G+128G 全网通</h4>   
-                </div>
-                <div class="goods-price">
-                  <span class="price">￥<em>6988</em></span>  
-                  <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
-                    <button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub">-</button>
-                    <input id="test" class="mui-input-numbox" type="number" value="1" v-model="val"/>
-                    <button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd">+</button>
-                  </div>            
-                </div>    
-              </div>                 
-            </div>
-          </li>             
-        </ul>
-      </div>
-		</div>
-    <div class="cartlistitem">
-        <div style="padding-left:12px;margin-bottom: 10px;">
-            <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">官方自营 {{isCheckAll}}</yd-checkbox>
-        </div>
 
-        <yd-checklist v-model="checklist3" ref="checklistDemo" :callback="change">
-            <yd-checklist-item val="1">
-                <div style="height: 50px;line-height: 50px;">1 -- 值：{{checklist3}}</div>
-            </yd-checklist-item>
-            <yd-checklist-item val="2">
-                <div style="height: 50px;line-height: 50px;">2</div>
-            </yd-checklist-item>
-            <yd-checklist-item val="3">
-                <div style="height: 50px;line-height: 50px;">3</div>
-            </yd-checklist-item>
-        </yd-checklist>
-    </div>
+
+      <div class="goods-store" @click="selectedAll()">
+        <input type="checkbox" @click.prevent="" :checked="isAllChecked">
+        <i class="icon-store"></i>
+        <span>官方自营</span>
+      </div>
+      <div class="goods-item" v-for="(item,index) in arr" :key="item.id">
+        <div  @click="oneSelected(item)">    
+          <input type="checkbox" @click.prevent="" :checked="item.isChecked">                   
+          <div class="goods-pic"> 
+              <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">            
+          </div>
+          <div class="goods-info">
+            <div class="goods-title">            
+                <h4>{{item.title}}</h4>   
+            </div>
+            <div class="goods-price">
+              <span class="price">￥<em>{{item.price}}</em></span>           
+            </div>    
+          </div>                                
+        </div>
+        <!-- 增减按钮 -->
+        <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
+          <button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub(item.id)">-</button>
+          <input id="test" class="mui-input-numbox" type="number" :value="item.count" />
+          <button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd(item.id)">+</button>
+        </div> 
+        
+      </div>
+
+
+		</div>
+    <div>合计：{{getSubTotal}}</div>
+    
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
+        arr:[{
+          id:1,
+          title:"iphoneX",
+          price:7988,
+          count:2
+        },{
+          id:2,
+          title:"iphoneXS",
+          price:8988,
+          count:3
+        },{
+          id:3,
+          title:"iphoneXsMax",
+          price:9988,
+          count:2
+        },{
+          id:4,
+          title:"HuaweiP20",
+          price:5988,
+          count:1
+        },{
+          id:5,
+          title:"Meizu16th",
+          price:3588,
+          count:2
+        },{
+          id:6,
+          title:"OPPO R17",
+          price:9988,
+          count:1
+        },{
+          id:7,
+          title:"三星S9",
+          price:5988,
+          count:2
+        },{
+          id:8,
+          title:"小米8",
+          price:2788,
+          count:2
+        }],
         val:1,
-        checklist3:[],
-        isCheckAll:false
+        /*全选 */
+        isAllChecked:false 
       }
-
     },
     methods:{
       jump(url){
         this.$router.push(url);
       },
-      change(value, isCheckAll) {
-        this.isCheckAll = isCheckAll;
-      },
-      checkAll() {
-        this.isCheckAll = !this.isCheckAll;
-        this.$refs.checklistDemo.$emit('ydui.checklist.checkall', this.isCheckAll);
-      },
-      goodAdd(){
-        if(this.val<=8){
-          this.val++;
+      goodAdd(id){
+        //1.获取数组中每个元素
+        for(var item of this.arr){
+        //2.判断参数中id是否与当前元素id相同
+          if(item.id == id){
+            if(item.count > 8)return;
+            //3.当前元素数量+1
+            item.count++;
+            break;
+            // if(this.val<=8){
+            //   this.val++;
+            // }
+          }
         }
       },
-      goodSub(){
-        if(this.val>1){
-        this.val--;
+      goodSub(id){
+        for(var item of this.arr){
+          if(item.id == id){
+            if(item.count < 2)return;
+            item.count--;
+            break;
+            // {
+            // this.val--;
+            // }
+          }
         }
+      },
+      /*单个复选框事件*/
+      oneSelected:function(item){
+        if(typeof item.isChecked == "undefined"){
+          this.$set(item,"isChecked",true);
+        }else{
+          item.isChecked = !item.isChecked;
+        }
+        this.isSelectedAll(item);
+      },
+      /**判断是否全选 */
+      isSelectedAll:function(item){
+        var flag = true;
+        this.arr.forEach(function(value,index){      
+          if(!value.isChecked){
+            flag = false;
+          }
+        })
+        this.isAllChecked = flag ? true : false;
+      },
+      /*全选与取消全选 */
+      selectedAll:function(){
+        this.isAllChecked = !this.isAllChecked;
+        var aa = this.isAllChecked;
+        this.arr.forEach(function(value,index){
+          value.isChecked = aa;
+        })
+
       }
 
     },
     created() {
       
+    },
+    computed:{//计算属性
+      getSubTotal:function(){
+        //计算商品累加合并返回
+        //1.创建临时变量 
+        var sum = 0;
+        //2.创建循环
+        for(var item of this.arr){
+          //3.计算累加和
+          sum += item.price * item.count;
+        }
+        //4.返回累加结果
+        return sum;
+      }
+
+
+
     }
   }
 </script>
@@ -131,22 +208,26 @@
   margin-right: 0.5rem;
   vertical-align: top;
 }
-input[type="checkbox"] {
-    position: relative;
-    background-color: #F5F5F5;
-    border: 0.05rem solid #eee;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    vertical-align: middle;
-    width: 1.2rem;
-    height: 1.2rem;
-    -webkit-appearance: none;
+.app-cartList input[type="checkbox"] {
+  float:left;
+  position: relative;
+  background-color: #F5F5F5;
+  border: 0.05rem solid #eee;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  vertical-align: middle;
+  width: 1.2rem;
+  height: 1.2rem;
+  -webkit-appearance: none;
 }
-input[type="checkbox"]:checked{
+.app-cartList .goods-item input[type="checkbox"] {
+  top: 1.6rem;
+}
+.app-cartList input[type="checkbox"]:checked{
   background-color: #ed5564;
   border-color: #ed5564;
 }
-input[type="checkbox"]:checked:after{
+.app-cartList input[type="checkbox"]:checked:after{
   content: '';
   position: absolute;
   left: 0.17rem;
@@ -158,13 +239,13 @@ input[type="checkbox"]:checked:after{
   -webkit-transform: rotate(-45deg);
 }
 
-.app-cartList .cart-list-wrap i.icon-store {
+.app-cartList  i.icon-store {
   display: inline-block;
   background:url('../../img/goodlist/store_b.png') no-repeat 50% 50%;
   background-size: 100%;
   width: 1.1rem;
   height: 1.1rem;
-  margin-right: 0.5rem;
+  margin: 0 0.8rem;
   vertical-align: middle;
 }
 .app-cartList .cart-list-wrap ul {
@@ -179,43 +260,36 @@ input[type="checkbox"]:checked:after{
   left: 0.9rem;
 }
 /*商品信息*/
-  .cart-details {
+  .app-cartList .cart-details {
     margin-left: 2rem;
     padding-top: 0.62rem;
     border-bottom: 1px solid #ddd;
     position: relative;
   }
-  .cart-details .goods-pic {
+  .app-cartList .cart-list-wrap .goods-pic {
     float: left;
     width: 4.3rem;
     height: 4.3rem;
     margin-left: 0.5rem;
   }
-  .goods-pic img{
+  .app-cartList .goods-pic img{
     display: block;
     width: 100%;
     height: 100%;
   }
-  .goods-pic img{
-    width: 100%;
-    height: 100%;
-  }
-  .cart-details .goods-info {
-    height: 4.7rem;
-  }
-  .cart-details .goods-info  a {
+  .app-cartList  .goods-info  a {
     display: block;
     color: #111;
   }
-  .cart-details .goods-info .goods-title h4{
+  .app-cartList  .goods-info .goods-title h4{
     font-size: 0.88rem;
     overflow: hidden;
-    height: 2rem;
+    height: 1.1rem;
     line-height: 1.1rem;
     font-weight: 100;
     margin-left: 83px;
   }
-  .cart-details .goods-info .goods-price .price {
+  .app-cartList  .goods-info .goods-price .price {
     
     font-size: 0.95rem;
     color: #DB4453;
@@ -223,13 +297,17 @@ input[type="checkbox"]:checked:after{
     line-height: 1rem;
   }
   /*加减*/
-  .cart-details .mui-numbox{
-    margin-left: 5.6rem;
+  .app-cartList  .mui-numbox{
+    margin-left: 7.8rem;
     height: 25px;
-
   }
-  .cartlistitem {
-    margin-top: 50px;
+  .app-cartList .goods-store {
+    padding: 0.5rem 15px;
+    border-bottom: 0.05rem solid #ddd;
+  }
+  .app-cartList .goods-item {
+    padding: 10px 0 15px 15px;
+    border-bottom: 0.05rem solid #ddd;
   }
 </style>
 
