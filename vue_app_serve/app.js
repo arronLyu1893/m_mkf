@@ -64,14 +64,94 @@ app.get("/f_imagelist",(req,res)=>{
 // })
 //功能三：商品列表 
 app.get("/goodslit2",(req,res)=>{
-  var sql = "SELECT * FROM mkf_index_product ";
   var obj = {};
+  obj.pic=[]
+  obj.phone=[]
+  var isok=0;
+  var sql = "SELECT * FROM mkf_phone_pic";
   pool.query(sql,[],(err,result)=>{
     if(err)throw (err);
-    res.send(result);
+    obj.pic=result
+    isok+=50;
+    console.log(obj)
+    if(isok==100){
+      res.send(obj);
+      res.end;
+    }
+  })
+  var sql = "SELECT * FROM mkf_phone";
+  pool.query(sql,[],(err,result)=>{
+    if(err)throw (err);
+    obj.phone=result
+    isok+=50;
+    if(isok==100){
+      res.send(obj);
+      res.end;
+    }
   })
 })
+//功能四：商品页详情
+app.get("/goodsinfo",(req,res)=>{
+  var lid=req.query.lid;
+  var obj={};
+  obj.product=[];
+  obj.pics=[];
+  var isok=0
+  //用lid查询当前商品信息
+  var sql1="SELECT * FROM mkf_phone WHERE lid=?";
+  //用lid查询当前商品图片列表
+  var sql2="SELECT * FROM mkf_phone_pic WHERE lid=?";
+  pool.query(sql1,[lid],(err,result)=>{
+    if(err) console.log(err);
+    console.log(result)
+    obj.product=result[0];
+    isok+=50
+    if(isok==100){
+      res.send(obj)
+    res.end();
+    }
+  })
+  pool.query(sql2,[lid],(err,result)=>{
+    if(err) console.log(err);
+    console.log(result)
+    obj.pics=result;
+    isok+=50
+    if(isok==100){
+      res.send(obj)
+    res.end();
+    }
+    
+  })
 
+
+})
+// 功能五：将商品信息添加至购物车
+//-INSERT INTO mkf_cart VALUES();
+app.get("/addCart",(req,res)=>{
+  //1.参数 商品id  商品数量
+    //1.1: 获取参数
+    var pid = req.query.pid;
+    var count =  req.query.count;
+    //1.2: 创建正则表达式验证 必做
+    //所有用户参数都需要验证 js第一次 node.jd第二次
+    //安全
+    var reg = /^[0-9]{1,}$/;    //正则
+    if(!reg.test(pid)){       //如果参数验证失败
+      res.send({code:-1,msg:"商品编号参数有误"});
+      return;                      //输出错误信息并停止
+      
+    }
+    if(!reg.test(count)){
+      res.send({code:-2,msg:"商品数量参数有误"});
+      return;                      //输出错误信息并停止
+    }
+    //1.3:如果验证失败返回
+    //2:连接数据库
+    //3:返回成功值
+    //http://localhost:3000/addCart?pid=3&count=5 
+    res.send({code:1,msg:"添加成功"});
+
+})
 
 
 //功能九：用户登录
@@ -85,6 +165,7 @@ app.get("/login",(req,res)=>{
   var sql = " SELECT count(id) as c FROM mkf_user1";
       sql +=" WHERE uname=? AND upwd = md5(?)";
   pool.query(sql,[uname,upwd],(err,result)=>{
+    console.log(result);
         if(err)throw err;
         if(result[0].c==0){
           res.send({code:-1,msg:"用户名密码有误"});
@@ -94,3 +175,6 @@ app.get("/login",(req,res)=>{
   })
 
 });
+
+
+
