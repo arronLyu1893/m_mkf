@@ -58,16 +58,16 @@
         <ul class="goods-search-list">
           <li class="goods-item" v-for="(item,i) in phone" :key="i">
             <span class="goods-pic">
-              <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
+              <a @click.stop.prevent="jump('/home/goods/goodsinfo?lid='+item.lid)">
                 <img :src="'http://127.0.0.1:3000/'+item.md">
-              </router-link>
+              </a>
             </span>
             <div class="goods-info">
               <div class="goods-title">
-                <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
+                <a @click.stop.prevent="jump('/home/goods/goodsinfo?lid='+item.lid)">
                   <h4>{{item.title}}</h4>
                   <h6>{{item.subtitle}}</h6>
-                </router-link>
+                </a>
               </div>
               <div class="goods-price">
                 <router-link :to="'/home/goods/goodsinfo?lid='+item.lid">
@@ -93,6 +93,9 @@
       return { phone:[],pics:[],drop:false,ishome:false}
     },
     methods:{
+      jump(url){
+        this.$router.push(url);
+      },
       getDetails(){
         var url="goodslit2"
         this.$http.get(url).then(result=>{

@@ -120,7 +120,7 @@
                     </div>
                     <div class="goods-price">
                       <span class="price">￥<em>{{product.price}}</em></span>
-                      <span class="mall">库存99件</span>
+                      <span class="mall">库存{{product.stock}}件</span>
                     </div>     
                   </div>
                   <div class="goods-close" @click="hideCart"><i></i></div>                  
@@ -129,15 +129,14 @@
             <div class="spec-options-stock">
               <dl>
                 <dt>颜色:</dt>
-                <dd>
-                  <a href="#">波尔多红</a>
-                  <a href="#" class="current">冰珀蓝</a>
+                <dd v-for="item in specs" :key="id"   >
+                  <a href="#"  class="current">{{item.color}}</a>
                 </dd>
               </dl>
               <dl>
                 <dt>内存:</dt>
-                <dd>
-                  <a href="#" class="current">8+128G</a>
+                <dd v-for="item in specs">
+                  <a href="#" class="current">{{item.memory}}</a>
                 </dd>
               </dl>
               <dl>
@@ -186,25 +185,38 @@
 <script>
   //2.引入mui js 库
   //import mui from "../../lib/mui/js/mui.js";
+
+  import {Toast} from "mint-ui";//弹窗组件
   export default {
     data() {
       return{ 
         list:[],
         product:{},
         pics:[],
+        specs:[],
         lid:this.$route.query.lid,
         show:true,
         val:1
       }
     },
-    methods:{
+    methods:{ 
       addCartTo(){
-        console.log(this.$route.params.id);
+        console.log(this.$route.query.lid);
         //1:将商品编号和数量保存至服务器
         var url="addCart";
         //1.1:获取商品编号
+        var id = this.$route.query.lid;
         //1.2:获取商品数量
+        var count = this.val;
+        //console.log(id+"_"+count);
         //1.3发送请求
+        this.$http.get("addCart?lid="+id+"&count="+count).then(result=>{
+          if(result.body.code == 1){
+            Toast(result.body.msg);
+          }else{
+            Toast(result.body.msg);
+          }
+        });
         //2:更新HOME页面，购物车数量角标
 
       },
@@ -226,8 +238,10 @@
         this.$http.get(url+"?lid="+this.lid).then(result=>{
           this.product=result.body.product;
           this.pics=result.body.pics;
+          this.specs=result.body.specs;
           console.log(this.pics);
           console.log(this.product);
+          console.log(this.specs);
         })
       },
       showCart(){//显示购物车弹窗
@@ -240,8 +254,9 @@
       }
     },
     created(){
-      console.log();
+      console.log(this.$route.query.lid);
       this.getGoodsInfo();
+      
 
     }
   }
@@ -618,8 +633,9 @@
     line-height: 1.5rem;
   }
   .cart-spec .spec-options-stock dd {
-    display: block;
+    display: inline-block;
     margin-left: 0;
+    margin-left: 0.5rem;
   }
   .cart-spec .spec-options-stock dd a{
     display: inline-block;
