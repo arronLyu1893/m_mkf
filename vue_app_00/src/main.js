@@ -38,7 +38,34 @@ Vue.use(VueResource);
 //#配置VueResource 服务器根目录
 Vue.http.options.root = "http://127.0.0.1:3000/";
 
+//4:创建Vuex实例对象
+  //4.1:下载Vuex npm i vuex -D
+  //4.2:引入Vuex
+  import Vuex from "vuex"
+  //4.3:注册Vuex实例
+  Vue.use(Vuex)
+  //4.4:创建Vuex实例对象
+  var store = new Vuex.Store({
+    stare:{count:0},  //购物车商品的数量
+    mutations:{
+      increment(state){
+        state.count++  //修改刚想数据的两个方法
+      }, 
+      substract(state){
+        state.count--   //参数共享数据属性
+      }  
+    },
+    getters:{
+      optCount:function(state){
+        return state.count;  //返回共享数据
+      }
+    }
+  });
+//5:将Vuex注册Vue实例
+
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  store
 }).$mount('#app')
+ 
