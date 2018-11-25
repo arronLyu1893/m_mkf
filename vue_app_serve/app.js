@@ -96,17 +96,21 @@ app.get("/goodsinfo",(req,res)=>{
   var obj={};
   obj.product=[];
   obj.pics=[];
+  obj.specs=[];
   var isok=0
   //用lid查询当前商品信息
   var sql1="SELECT * FROM mkf_phone WHERE lid=?";
   //用lid查询当前商品图片列表
   var sql2="SELECT * FROM mkf_phone_pic WHERE lid=?";
+  //用lid查询当前商品同系列的规格列表
+  var sql3="SELECT lid,memory,color,editon FROM mkf_phone where family_id=( select family_id from mkf_phone where lid=?)";
+
   pool.query(sql1,[lid],(err,result)=>{
     if(err) console.log(err);
-    console.log(result)
+    console.log(result);
     obj.product=result[0];
     isok+=50
-    if(isok==100){
+    if(isok==150){
       res.send(obj)
     res.end();
     }
@@ -116,11 +120,21 @@ app.get("/goodsinfo",(req,res)=>{
     console.log(result)
     obj.pics=result;
     isok+=50
-    if(isok==100){
+    if(isok==150){
+      res.send(obj)
+    res.end();
+    } 
+  })
+  pool.query(sql3,[lid],(err,result)=>{
+    if(err) console.log(err);
+    console.log(result)
+    obj.specs=result;
+    isok+=50
+    if(isok==150){
       res.send(obj)
     res.end();
     }
-    
+
   })
 
 
@@ -130,13 +144,13 @@ app.get("/goodsinfo",(req,res)=>{
 app.get("/addCart",(req,res)=>{
   //1.参数 商品id  商品数量
     //1.1: 获取参数
-    var pid = req.query.pid;
+    var lid = req.query.lid;
     var count =  req.query.count;
     //1.2: 创建正则表达式验证 必做
     //所有用户参数都需要验证 js第一次 node.jd第二次
     //安全
     var reg = /^[0-9]{1,}$/;    //正则
-    if(!reg.test(pid)){       //如果参数验证失败
+    if(!reg.test(lid)){       //如果参数验证失败
       res.send({code:-1,msg:"商品编号参数有误"});
       return;                      //输出错误信息并停止
       
