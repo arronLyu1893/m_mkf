@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
-
 import'mint-ui/lib/style.css'
 
 Vue.config.productionTip = false
@@ -17,18 +16,22 @@ Vue.component(CheckListItem.name,CheckListItem);
 
 //引入组件mint-ui库Header
 //-引入指定组件
-import {Header,Swipe,SwipeItem,Search} from "mint-ui";
+// import {Header,Swipe,SwipeItem,Search} from "mint-ui";
 //-注册当前项目组
-Vue.component(Header.name,Header);
-Vue.component(Swipe.name,Swipe);
-Vue.component(SwipeItem.name,SwipeItem);
-Vue.component(Search.name,Search);
+// Vue.component(Header.name,Header);
+// Vue.component(Swipe.name,Swipe);
+// Vue.component(SwipeItem.name,SwipeItem);
+// Vue.component(Search.name,Search);
+
+//完整引入
+import MintUI from "mint-ui";
+Vue.use(MintUI)
 
 
 
 
 
-console.log(Header.name);
+//console.log(Header.name);
 //2.引入vue-resource 发送ajax
 //-引入vue-resource 库所有组件
 import VueResource from "vue-resource";
@@ -46,10 +49,10 @@ Vue.http.options.root = "http://127.0.0.1:3000/";
   Vue.use(Vuex)
   //4.4:创建Vuex实例对象
   var store = new Vuex.Store({
-    stare:{count:0},  //购物车商品的数量
+    state:{count:0},  //购物车商品的数量
     mutations:{
-      increment(state){
-        state.count++  //修改刚想数据的两个方法
+      increment(state,c){
+        state.count+=c //修改共享数据的两个方法
       }, 
       substract(state){
         state.count--   //参数共享数据属性
@@ -59,7 +62,7 @@ Vue.http.options.root = "http://127.0.0.1:3000/";
       optCount:function(state){
         return state.count;  //返回共享数据
       }
-    }
+    } 
   });
 //5:将Vuex注册Vue实例
 
