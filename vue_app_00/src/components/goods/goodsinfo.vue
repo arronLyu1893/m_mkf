@@ -94,7 +94,10 @@
             </a>  
             <a @click.stop.prevent="jump('/home/goods/cartlist?lid=1')" class="cart">
               <i></i>
-              <p>购物车</p>
+              <p>
+                购物车
+                <span class="mui-badge">{{$store.getters.optCount}}</span>
+                </p>
             </a>
           </div>
           <div class="buy-handle">
@@ -170,7 +173,10 @@
               </a>  
               <a href="#" class="cart">
                 <i></i>
-                <p>购物车</p>
+                <p>
+                  购物车
+                  <span class="mui-badge">{{$store.getters.optCount}}</span>
+                 </p>
               </a>
             </div>
             <div class="buy-handle">
@@ -212,6 +218,9 @@
         //1.3发送请求
         this.$http.get("addCart?lid="+id+"&count="+count).then(result=>{
           if(result.body.code == 1){
+            //1.4:更新购物车商品数量
+            //修改Vuex共享数据  
+            this.$store.commit("increment",count)
             Toast(result.body.msg);
           }else{
             Toast(result.body.msg);
@@ -256,8 +265,6 @@
     created(){
       console.log(this.$route.query.lid);
       this.getGoodsInfo();
-      
-
     }
   }
 </script>
@@ -475,6 +482,15 @@
   }
   .otreh-handle a.cart {
     width: 55%;
+    position: relative;
+  }
+  
+  /********购物车角标*********/
+  
+  .otreh-handle a.cart .mui-badge {
+    position: absolute;
+    bottom:35px;
+    left:37px;
   }
   .buy-handle a {
     color: #fff;
