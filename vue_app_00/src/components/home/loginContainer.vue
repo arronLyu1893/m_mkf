@@ -2,7 +2,7 @@
   <div class="app-login">
     <!-- 导航 -->
     <header id="header" class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/home/goods/goodsinfo')"></a>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/')">
       </a>
 		</header>
     <!-- LOGO -->
@@ -21,10 +21,9 @@
         <a class="register" href="#">注册账号</a>
         <a class="forget_pwd" href="#">忘记密码 ?</a>
       </div>
-      <input type="button" id="btn1" value="登录" @click="btnSubmit"><br/>
-      <input type="button" id="btn2" value="微信登录" @click="btnSubmit2"><br/>
+      <a class="login_go" @click="btnSubmit">登录</a>
+      <a class="wx_go" @click="btnSubmit2">微信登录</a>
     </div>
-
   </div>
 </template>
 <script>
@@ -39,7 +38,11 @@
       }
     },
     methods:{
+      jump(url){
+        this.$router.push(url);
+      },
       btnSubmit(){
+        console.log('1');
         var u = this.unameval;
         var p = this.upwdval;
         this.$http.get("login?uname="+u+"&upwd="+p).then(result=>{
@@ -60,6 +63,7 @@
 <style>
 .app-login {
   background-color: #fff;
+  height: 598px;
 }
 .app-login .mui-bar .mui-icon {
   color: #666;
@@ -100,18 +104,22 @@
   float:right;
   margin-right: 0.8rem;
 }
-.app-login input[type="button"] {
-  display:block;
-  width: 85%;
+.login_go,.wx_go {
+  display: block;
+  width: 90%;
   font-size: 1.1rem;
-  height: 3.5rem;
   margin: 0 auto;
+  text-align: center;
   color: #fff;
+  border-radius: 0.2rem;
+  height: 3.5rem;
+  line-height: 3.5rem;
 }
-.app-login #btn1{
+.login_go{
   background: rgba(255, 51, 51, 0.5);
+  margin-bottom: 0.7rem;
 }
-.app-login #btn2{
+.wx_go{
   background: rgba(35, 193, 32, 1);
 }
 </style>
