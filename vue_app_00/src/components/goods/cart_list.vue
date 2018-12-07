@@ -3,21 +3,19 @@
     <!-- 导航 -->
     <header id="header" class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/home/goods/goodsinfo')"></a>
-      <a class="mui-icon mui-icon-bars mui-icon-right-nav mui-pull-right"> 
+      <a class="mui-icon mui-icon-more-filled mui-icon-right-nav mui-pull-right"> 
       </a>
 			<h1 class="mui-title">购物车</h1>
 		</header>
     <!-- 购物车列表 -->
     <div class="cart-list-wrap">
-
-
       <div class="goods-store" @click="selectedAll()">
         <input type="checkbox" @click.prevent="" :checked="isAllChecked">
         <i class="icon-store"></i>
         <span>官方自营</span>
       </div>
-      <div class="goods-item" v-for="(item,index) in arr" :key="item.id">
-        <div  @click="oneSelected(item)">    
+      <div class="goods-item" v-for="(item,i) in arr" :key="i">
+        <div  @click="oneSelected(item)">        
           <input type="checkbox" @click.prevent="" :checked="item.isChecked">                   
           <div class="goods-pic"> 
               <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">            
@@ -36,11 +34,8 @@
           <button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub(item.id)">-</button>
           <input id="test" class="mui-input-numbox" type="number" :value="item.count" />
           <button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd(item.id)">+</button>
-        </div> 
-        
+        </div>      
       </div>
-
-
 		</div>
     <div>合计：{{getSubTotal}}</div>
     
@@ -236,9 +231,8 @@
   height: 0.4rem;
   border-left: 0.065rem solid #fff;
   border-bottom: 0.065rem solid #fff;
-  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
-
 .app-cartList  i.icon-store {
   display: inline-block;
   background:url('../../img/goodlist/store_b.png') no-repeat 50% 50%;
