@@ -12,17 +12,17 @@
     <!-- 账户密码 -->
     <div id="login">
       <div class="weui-cell">
-        <input type="text" name="uname" v-model="unameval" placeholder="请输入手机号"><br/>
+        <input type="text" id="uname" v-model="unameval" placeholder="请输入手机号"><br/>
       </div>
       <div class="weui-cell"> 
-        <input type="password" name="upwd" v-model="upwdval" placeholder="请输入密码"><br/>
+        <input type="password" id="upwd" v-model="upwdval" placeholder="请输入密码"><br/>
       </div>
       <div class="login_control">
         <a class="register" href="#">注册账号</a>
         <a class="forget_pwd" href="#">忘记密码 ?</a>
       </div>
       <a class="login_go" @click="btnSubmit">登录</a>
-      <a class="wx_go" @click="btnSubmit2">微信登录</a>
+      <a class="wx_go" >微信登录</a>
     </div>
   </div>
 </template>
@@ -45,11 +45,14 @@
         console.log('1');
         var u = this.unameval;
         var p = this.upwdval;
+        console.log(u+"_"+p);
         this.$http.get("login?uname="+u+"&upwd="+p).then(result=>{
+          console.log(result.body)
           if(result.body.code == 1){
+            sessionStorage['uname']=result.body.uname
             Toast(result.body.msg);
             this.$router.push("/");
-          } else{
+          }else{
             Toast(result.body.msg);
           }  
         })
