@@ -11,9 +11,9 @@
         </a>
       </div>
       <div class="login">
-        <router-link to="/home/login">
+        <a @click="login('/home/login')">
           <i></i>
-          <p>登录</p></router-link>
+          <p>{{isLogin}}</p></a>
       </div>
       
     </header>
@@ -35,8 +35,8 @@
           <p>分类</p></a></li>
         <li>
           <a @click.stop.prevent="jumpShop('/home/goods/cartlist')">
-          
-          <i></i><span class="mui-badge">0</span>
+          <i></i><span class="mui-badge">
+            {{$store.getters.optCount}}</span>
           <p>购物车</p></a></li>
         <li>
           <a @click.stop.prevent="jumpShop('/home/goods/goodslist')"><i></i>
@@ -122,10 +122,7 @@
           <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960401097690412.jpg" ></a></li>
           <li><a href="#"><img src="http://127.0.0.1:3000/m_img/special/s0/s0_05960400749897392.jpg" ></a></li>
         </ul>
-      </div>  
-
-
-      
+      </div>      
     </div>  
     <!-- footer -->
     <footer id="footer">
@@ -143,22 +140,32 @@
             <i></i></span><p>触屏版</p></a>
           <a href="#" class="pc"><span>
             <i></i></span><p>电脑版</p></a>
-        </div>
-        
+        </div>        
       </div>
     </footer>
   </div>
 </template>
 <script>
+import {Toast} from "mint-ui";
   export default{
     data() {
       return {
         list:[],
         list2:[],
         ishome:true,
+        isLogin:'登录'
       }
     },
     methods:{
+      login(url){//登录注销点击事件
+        if(this.isLogin=='注销'){//如果字符串为注销  点击 弹出注销成功和改变sessionStorage储存的uname为空
+          Toast('注销成功')
+          sessionStorage['uname']='no'
+          }
+        else//否则 跳转 到登录界面  
+          this.$router.push(url);
+          this.isLogins();//执行事件 改变登录状态字符串
+      },
       jumpShop(url){
         //编程跳转方式
         //this.$router.push("/home/goodslist?id=15");
@@ -179,6 +186,14 @@
       //    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       //    console.log(scrollTop)
       //  }
+      isLogins(){
+        var uname=sessionStorage['uname']
+        if(uname=='no'){//如果用户名为空 显示登录按钮
+          this.isLogin='登录'
+        }else{//如果用户名不为空 则显示登录按钮
+          this.isLogin='注销'
+        }
+      }
     },
     created(){
       if(this.ishome){
@@ -195,6 +210,7 @@
       };
       this.getImage();
       this.getImage2();
+      this.isLogins();
     },
     mounted () {
       window.addEventListener('scroll', this.handleScroll)
