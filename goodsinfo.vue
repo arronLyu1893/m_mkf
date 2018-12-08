@@ -1,5 +1,17 @@
 <template>
-  <div class="app-goodsinfo">
+  <div class="app-goodsinfo">   
+      <!-- 导航 -->
+      <header id="header" class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/home/goods/goodslist')"></a>
+        <a class="mui-icon mui-icon-more-filled mui-icon-right-nav mui-pull-right"> 
+        </a>
+        <ul>
+          <li class="cur"><a href="#">商品</a></li>     
+          <li><a href="#">详情</a></li>     
+          <li><a href="#">参数</a></li>     
+          <li><a href="#">评价</a></li>     
+        </ul>
+      </header>
       <div class="fixed">
         <!--轮播图-->
         <mt-swipe :auto="3000">
@@ -9,6 +21,7 @@
         </mt-swipe>
         <div class="round"><i></i></div>
       </div>
+      
       <!-- 商品信息 -->
       <div class="goods-details-card">
         <div class="goods-detail-name">
@@ -57,7 +70,7 @@
               </span>
                     </dt></dl>
           </div>
-          <div class="item-more arrow-right"></div>
+          <div class="item-more arrow-right" @click="showCart"></div>
         </div>
         <div class="goods-detail-item serve">
           <div class="item-name">服务</div>
@@ -92,27 +105,34 @@
               <i></i>
               <p>客服</p>
             </a>  
-            <a href="#" class="cart">
+            <a @click.stop.prevent="jump('/home/goods/cartlist?lid=1')" class="cart">
               <i></i>
-              <p>购物车</p>
+              <p>
+                购物车
+                <span class="mui-badge">{{$store.getters.optCount}}</span>
+                </p>
             </a>
           </div>
           <div class="buy-handle">
-            <a href="#" class="animation-up add-cart">加入购物车</a>
-            <a href="#" class="animation-up buy-now">立即购买</a>
+            <a href="#" class="animation-up add-cart" @click="showCart" >加入购物车</a>
+            <a href="#" class="animation-up buy-now" @click="showCart" >立即购买</a>
           </div>
         </div>
-			</div>   
-      <!-- 购物车弹窗 -->
-      <div class="goods-bottom-cart">
+			</div>
+
+      <!-- 商品评论子组件 3：调用 子组件-->
+      <comment-box @changeEvents="getChildContent" :specs="specs"></comment-box>
+
+      <!-- 购物车弹窗 --> 
+      <div class="goods-bottom-cart" :class="show?'':'block'">
         <div class="nctouch-bottom-mask-bg"></div>
         <div class="nctouch-bottom-mask-block">
-          <div class="cart-tip">
+          <div class="cart-tip" @click="hideCart">
             <i></i>点击此处返回
           </div>
           <div class="cart-details"> 
                   <div class="goods-pic"> 
-                      <img src="http://127.0.0.1:3000/img/product/md/iphonsXS-3_05905759410575943_60.jpg">              
+                      <img :src="'http://127.0.0.1:3000/'+product.md">              
                   </div>
                   <div class="goods-info">
                     <div class="goods-title">            
@@ -120,23 +140,23 @@
                     </div>
                     <div class="goods-price">
                       <span class="price">￥<em>{{product.price}}</em></span>
-                      <span class="mall">库存99件</span>
-                    </div>      
-                  </div>                  
+                      <span class="mall">库存{{product.stock}}件</span>
+                    </div>     
+                  </div>
+                  <div class="goods-close" @click="hideCart"><i></i></div>                  
           </div>
           <div class="cart-spec">
             <div class="spec-options-stock">
               <dl>
                 <dt>颜色:</dt>
-                <dd>
-                  <a href="#">波尔多红</a>
-                  <a href="#" class="current">冰珀蓝</a>
-                </dd>
+                <dd v-for="(item,i) in specs" :key="item"   >
+                  <a :href="'http://127.0.0.1:3001/home/goods/goodsinfo?lid='+5"  :class="item.lid==lid?'current':''" >{{item.color}}</a>
+                </dd>         
               </dl>
               <dl>
                 <dt>内存:</dt>
-                <dd>
-                  <a href="#" class="current">8+128G</a>
+                <dd v-for="item in specs" :key="item">
+                  <a href="#" class="current">{{item.memory}}</a>
                 </dd>
               </dl>
               <dl>
@@ -157,9 +177,9 @@
           <div class="cart-num">
             <span>购买数量</span>
             <div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
-              <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-              <input id="test" class="mui-input-numbox" type="number" value="1" />
-              <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+              <button class="mui-btn mui-btn-numbox-minus" type="button" @click="goodSub">-</button>
+              <input id="test" class="mui-input-numbox" type="number" value="1" v-model="val" />
+              <button class="mui-btn mui-btn-numbox-plus" type="button" @click="goodAdd">+</button>
             </div>
           </div>
           <div class="goods-details-foot">
@@ -170,11 +190,14 @@
               </a>  
               <a href="#" class="cart">
                 <i></i>
-                <p>购物车</p>
+                <p>
+                  购物车
+                  <span class="mui-badge">{{$store.getters.optCount}}</span>
+                 </p>
               </a>
             </div>
             <div class="buy-handle">
-              <a href="#" class="animation-up add-cart">加入购物车</a>
+              <a href="#" class="animation-up add-cart" @click="addCartTo()">加入购物车</a>
               <a href="#" class="animation-up buy-now">立即购买</a>
             </div>
           </div>
@@ -183,34 +206,131 @@
   </div>
 </template>
 <script>
+  //2.引入mui js 库
+  //import mui from "../../lib/mui/js/mui.js";
+  import {Toast} from "mint-ui";//弹窗组件
+  //1.引入子组件
+  import comment from '../sub/comment.vue'
+
   export default {
     data() {
       return{ 
         list:[],
         product:{},
         pics:[],
+        specs:[],
         lid:this.$route.query.lid,
+        show:true,
+        val:1
       }
     },
-    methods:{
+
+    methods:{ 
+      getChildContent:function(str){
+        console.log(str)
+
+      },
+      addCartTo(){
+        console.log(this.$route.query.lid);
+        //1:将商品编号和数量保存至服务器
+        var url="addCart";
+        //1.1:获取商品编号
+        var id = this.$route.query.lid;
+        //1.2:获取商品数量
+        var count = this.val;
+        //console.log(id+"_"+count);
+        //1.3发送请求
+        this.$http.get("addCart?lid="+id+"&count="+count).then(result=>{
+          if(result.body.code == 1){
+            //1.4:更新购物车商品数量
+            //修改Vuex共享数据  
+            this.$store.commit("increment",count)
+            Toast(result.body.msg);
+          }else{
+            Toast(result.body.msg);
+          }
+        });
+        //2:更新HOME页面，购物车数量角标
+
+      },
+      jump(url){
+        this.$router.push(url);
+      },
+      goodAdd(){
+        if(this.val<=8){
+          this.val++;
+        }
+      },
+      goodSub(){
+        if(this.val>1){
+        this.val--;
+        }
+      },
       getGoodsInfo(){
         var url="goodsinfo"
         this.$http.get(url+"?lid="+this.lid).then(result=>{
           this.product=result.body.product;
           this.pics=result.body.pics;
+          this.specs=result.body.specs;
           console.log(this.pics);
           console.log(this.product);
+          console.log(this.specs);
         })
+      },
+      showCart(){//显示购物车弹窗
+        console.log(this.show);
+          this.show=false;
+      },
+      hideCart(){//隐藏购物车弹窗
+        console.log(this.show);
+          this.show=true;
       }
     },
     created(){
-      console.log();
+      console.log(this.$route.query.lid);
       this.getGoodsInfo();
-
+    },
+    components:{
+      //2：注册子组件
+      "comment-box":comment
     }
   }
 </script>
 <style>
+  /* 导航 */
+  .app-goodsinfo .mui-bar {
+    /* background: transparent; */
+    text-align: center;
+  } 
+  .app-goodsinfo .mui-bar ul {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .app-goodsinfo .mui-bar a{
+    color: #333;
+  }
+  .app-goodsinfo .mui-bar ul li{
+    display: inline-block;
+    text-align: center;
+    list-style: none;
+    height: 2.75rem;
+    vertical-align: top;
+  }
+  .app-goodsinfo .mui-bar ul li a{
+    display: inline-block;
+    padding: 0.41rem 0.15rem;
+    margin: 0 0.8rem;
+    line-height: 1.825rem;
+    color: #333;
+    font-size: 1rem;  
+    font-weight: 400;
+  }
+  .app-goodsinfo .mui-bar ul li.cur a{
+    border-bottom:0.1rem solid #f00;
+    color: #e32613;
+    font-weight: 600; 
+  }
   /*轮播图样式*/
   .app-goodsinfo .mint-swipe{
     height:375px; 
@@ -270,7 +390,7 @@
     float:right;
     font-size: 0.7rem;
     right: 0.75rem;
-    bottom: 0px;
+    bottom: 12x;
   }
   /*快递/门店/规格/服务*/
   .goods-details-card .goods-detail-item {
@@ -424,6 +544,15 @@
   }
   .otreh-handle a.cart {
     width: 55%;
+    position: relative;
+  }
+  
+  /********购物车角标*********/
+  
+  .otreh-handle a.cart .mui-badge {
+    position: absolute;
+    bottom:35px;
+    left:37px;
   }
   .buy-handle a {
     color: #fff;
@@ -451,7 +580,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* display: none; */
+    display: none;
+  }
+  .app-goodsinfo .block {
+    display:block;
   }
   .goods-bottom-cart .nctouch-bottom-mask-bg {
     z-index: 20;
@@ -499,6 +631,7 @@
   .cart-details {
     padding-top: 0.62rem;
     border-bottom: 1px solid #ddd;
+    position: relative;
   }
   .cart-details .goods-pic {
     float: left;
@@ -544,6 +677,24 @@
     float:right;
     margin-right: 10px;
   }
+  .cart-details .goods-close {
+    position:absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #fff;
+    border:1px solid #fff;
+    border-radius: 100%;
+    top: -0.75rem;
+    right: 0rem;
+  }
+  .cart-details .goods-close i{
+    display:block;
+    background:url('../../img/goodlist/close_window.png') no-repeat 50% 50%;
+    background-size: contain;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0.1rem 0 0 0.0819rem;
+  }
   /******规格******/
   .cart-spec .spec-options-stock {
     padding: 0.3rem;
@@ -560,8 +711,9 @@
     line-height: 1.5rem;
   }
   .cart-spec .spec-options-stock dd {
-    display: block;
+    display: inline-block;
     margin-left: 0;
+    margin-left: 0.5rem;
   }
   .cart-spec .spec-options-stock dd a{
     display: inline-block;
@@ -582,14 +734,15 @@
     background-color: #ED5564;
   }
   .cart-num {
+    position: relative;
     border-top: 0.05rem solid #ddd;
     padding: 0.5rem;
     color: #999;
     font-size: 0.88rem;
     margin-bottom: 2.6rem;
   }
-  .cart-num span {
-    margin-right: 11rem;
+  .cart-num .mui-numbox{
+    left: 11rem;
   }
 
   .nctouch-bottom-mask-block .goods-details-foot {
