@@ -1,5 +1,16 @@
 <template>
-  <div class="app-goodsinfo">
+  <div class="app-goodsinfo">   
+      <!-- 导航 -->
+      <header id="header" class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" @click.stop.prevent="jump('/home/goods/goodslist')"></a>
+        <a class="mui-icon mui-icon-more-filled mui-icon-right-nav mui-pull-right"> 
+        </a>
+        <ul>
+          <li v-for="item in navlist" :key="item" :class="item.id==ifyName?'cur':''"  @click="ifyN(item.id)">
+            <a href="#" >{{item.name}}</a>
+          </li>   
+        </ul>
+      </header>
       <div class="fixed">
         <!--轮播图-->
         <mt-swipe :auto="3000">
@@ -105,7 +116,11 @@
             <a href="#" class="animation-up buy-now" @click="showCart" >立即购买</a>
           </div>
         </div>
-			</div>   
+			</div>
+
+      <!-- 商品评论子组件 3：调用 子组件-->
+      <comment-box @changeEvents="getChildContent" :specs="specs"></comment-box>
+
       <!-- 购物车弹窗 --> 
       <div class="goods-bottom-cart" :class="show?'':'block'">
         <div class="nctouch-bottom-mask-bg"></div>
@@ -132,14 +147,14 @@
             <div class="spec-options-stock">
               <dl>
                 <dt>颜色:</dt>
-                <dd v-for="item in specs" :key="id"   >
-                  <a href="#"  class="current">{{item.color}}</a>
-                </dd>
+                <dd v-for="item in specs" :key="item"   >
+                  <a :class="item.lid==ifycolor?'current':''" @click="ify(item.lid)">{{item.color}}</a>
+                </dd>  
               </dl>
               <dl>
                 <dt>内存:</dt>
-                <dd v-for="item in specs">
-                  <a href="#" class="current">{{item.memory}}</a>
+                <dd v-for="item in specs" :key="item">
+                  <a :class="item.lid==ifyMemory?'current':''" @click="ify2(item.lid)">{{item.memory}}</a>
                 </dd>
               </dl>
               <dl>
@@ -154,7 +169,6 @@
                   <a href="#" class="">碎屛保|199.00</a>
                 </dd>
               </dl>
-
             </div>
           </div>
           <div class="cart-num">
@@ -191,21 +205,46 @@
 <script>
   //2.引入mui js 库
   //import mui from "../../lib/mui/js/mui.js";
-
   import {Toast} from "mint-ui";//弹窗组件
+  //1.引入子组件
+  import comment from '../sub/comment.vue'
+
   export default {
     data() {
       return{ 
+        navlist:[
+          {"id":1,"name":"商品"},
+          {"id":2,"name":"详情"},
+          {"id":3,"name":"参数"},
+          {"id":4,"name":"评价"}
+          ],
         list:[],
         product:{},
         pics:[],
         specs:[],
         lid:this.$route.query.lid,
         show:true,
-        val:1
+        val:1,//购物车初始数量
+        ifycolor:1,//默认第一个显示
+        ifyMemory:1,
+        ifyName:1
       }
     },
-    methods:{ 
+
+    methods:{  
+      ifyN(i){
+        this.ifyName=i
+      },
+      ify(i){
+        this.ifycolor=i
+      },
+      ify2(i){
+        this.ifyMemory=i
+      },
+      getChildContent:function(str){
+        console.log(str)
+
+      },
       addCartTo(){
         console.log(this.$route.query.lid);
         //1:将商品编号和数量保存至服务器
@@ -265,10 +304,48 @@
     created(){
       console.log(this.$route.query.lid);
       this.getGoodsInfo();
+    },
+    components:{
+      //2：注册子组件
+      "comment-box":comment
     }
   }
 </script>
 <style>
+  /* 导航 */
+  .app-goodsinfo .mui-bar {
+    /* background: transparent; */
+    text-align: center;
+  } 
+  .app-goodsinfo .mui-bar ul {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .app-goodsinfo .mui-bar a{
+    color: #333;
+  }
+  .app-goodsinfo .mui-bar ul li{
+    display: inline-block;
+    text-align: center;
+    list-style: none;
+    height: 2.75rem;
+    vertical-align: top;
+  }
+  .app-goodsinfo .mui-bar ul li a{
+    display: inline-block;
+    padding: 0.41rem 0.15rem;
+    margin: 0 0.8rem;
+    line-height: 1.825rem;
+    color: #333;
+    font-size: 1rem;  
+    font-weight: 400;
+  }
+  .app-goodsinfo .mui-bar ul li.cur a{
+    border-bottom:0.1rem solid #f00;
+    color: #e32613;
+    font-weight: 600; 
+  }
   /*轮播图样式*/
   .app-goodsinfo .mint-swipe{
     height:375px; 
