@@ -255,14 +255,14 @@
         var count = this.val;
         //console.log(id+"_"+count);
         //1.3发送请求
-        this.$http.get("addCart?lid="+id+"&count="+count).then(result=>{
-          if(result.body.code == 1){
+        this.$axios.get("http://127.0.0.1:3000/addCart?lid="+id+"&count="+count).then(result=>{
+          if(result.data.code == 1){
             //1.4:更新购物车商品数量
             //修改Vuex共享数据  
             this.$store.commit("increment",count)
-            Toast(result.body.msg);
+            Toast(result.data.msg);
           }else{
-            Toast(result.body.msg);
+            Toast(result.data.msg);
           }
         });
         //2:更新HOME页面，购物车数量角标
@@ -282,11 +282,11 @@
         }
       },
       getGoodsInfo(){
-        var url="goodsinfo"
-        this.$http.get(url+"?lid="+this.lid).then(result=>{
-          this.product=result.body.product;
-          this.pics=result.body.pics;
-          this.specs=result.body.specs;
+        var url="http://127.0.0.1:3000/goodsinfo"
+        this.$axios.get(url+"?lid="+this.lid).then(result=>{
+          this.product=result.data.product;
+          this.pics=result.data.pics;
+          this.specs=result.data.specs;
           console.log(this.pics);
           console.log(this.product);
           console.log(this.specs);

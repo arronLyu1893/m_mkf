@@ -31,10 +31,10 @@
     <div class="ntc-home">
       <ul>
         <li>
-          <a href="#"><i></i>
+          <a @click.stop.prevent="jumpShop('/home/cateGroy')"><i></i>
           <p>分类</p></a></li>
         <li>
-          <a @click.stop.prevent="jumpShop('/home/goods/cartlist')">
+          <a @click.stop.prevent="jumpShopCart('/home/goods/cartlist')">
           <i></i><span class="mui-badge">
             {{$store.getters.optCount}}</span>
           <p>购物车</p></a></li>
@@ -166,20 +166,29 @@ import {Toast} from "mint-ui";
           this.$router.push(url);
           this.isLogins();//执行事件 改变登录状态字符串
       },
-      jumpShop(url){
+      jumpShop(url){//点击编程跳转
         //编程跳转方式
         //this.$router.push("/home/goodslist?id=15");
         this.$router.push(url);
       },
+      jumpShopCart(url){//判定是否登录状态-->点击跳转购物车，
+        if(this.isLogin=='注销'){
+          this.$router.push(url);
+        }else{
+          this.$router.push('/home/login')
+          Toast('请登录')
+        }
+
+      },
       getImage(){
-        this.$http.get("imagelist").then(result=>{
+        this.$axios.get("imagelist").then(result=>{
           //console.log(result.body);
-          this.list = result.body;
+          this.list = result.data;
         })
       },
       getImage2(){
-        this.$http.get("f_imagelist").then(result=>{
-          this.list2 = result.body;
+        this.$axios.get("f_imagelist").then(result=>{
+          this.list2 = result.data;
         })
       },
       // handleScroll () {
@@ -237,14 +246,15 @@ import {Toast} from "mint-ui";
     top: 0.65rem;
   }
   .app-homeContainer .transparent .header-wrap {
-    float: left;
+    /* float: left; */
+    max-width: 768px;
   }
   .app-homeContainer .transparent .header-wrap .header-input{
     background-color: rgba(255,255,255,0.9);
-    margin: 0.5rem 0 0.5rem 6.3rem;
+    margin: 0.5rem 2.5rem 0.5rem 6.3rem;
     height: 1.9rem;
     line-height: 1.9rem;
-    width: 14.5rem;
+    /* width: 14.5rem; */
     display:block;
     border-radius: 2px;
     color: #dfdfdf;
@@ -338,12 +348,15 @@ import {Toast} from "mint-ui";
   .app-homeContainer .mui-content .mui-table-view li:nth-child(even){
     border-left: 0.05rem solid #CCC;
   }
-  .app-homeContainer .transparent  .login {
+  .app-homeContainer .transparent .login {
     width: 1.8rem;
     height: 1.8rem;
-    float:right;
     margin: 0.2rem 0.4rem 0.2rem 0;
     text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0.2rem;
+
   }
   .app-homeContainer .transparent  .login p{
     color: #fff;
@@ -375,11 +388,23 @@ import {Toast} from "mint-ui";
     padding: 0;
     margin: 0;
   }
+  .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(1) a {
+    height: 141px;
+
+  }
   .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(2) li{
     width: 25%;
     float:left;
-    height: 109px;
+    margin-bottom: -10px;
   }
+  
+  .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(2) ul:after{
+    content:"";
+    display: block;
+    clear:both;
+
+  }
+
   .app-homeContainer .ntc-layout .nctouch-home-block:nth-child(5) ul {
     display: block;
     width: 100%;

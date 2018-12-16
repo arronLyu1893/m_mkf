@@ -30,50 +30,14 @@
                 <div class="ci-fcategory-name">手机通讯</div>
               </a>
             </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
-            <li class="category-item ">
-              <a href="#">
-                <div class="ci-fcategory-ico"><img src="../../img/m_categroy/rootList/04890563696273833.png" /></div>
-                <div class="ci-fcategory-name">手机通讯</div>
-              </a>
-            </li>
           </ul>
       </div>
       <div class="mkf-category-cotent"></div>
-    </div>
-        
+    </div>     
   </div>
-  
 </template>
+
+
 <script>
   export default {
     data() {

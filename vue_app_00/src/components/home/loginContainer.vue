@@ -12,16 +12,16 @@
     <!-- 账户密码 -->
     <div id="login">
       <div class="weui-cell">
-        <input type="text" id="uname" v-model="unameval" placeholder="请输入手机号"><br/>
+        <input type="text" id="uname" v-model="unameval" placeholder="请输入手机号" @keyup.13="btnSubmit" ><br/>
       </div>
       <div class="weui-cell"> 
-        <input type="password" id="upwd" v-model="upwdval" placeholder="请输入密码"><br/>
+        <input type="password" id="upwd" v-model="upwdval" placeholder="请输入密码" @keyup.13="btnSubmit" ><br/>
       </div>
       <div class="login_control">
         <a class="register" href="#">注册账号</a>
         <a class="forget_pwd" href="#">忘记密码 ?</a>
       </div>
-      <a class="login_go" @click="btnSubmit">登录</a>
+      <a class="login_go" @click.stop.prevent="btnSubmit">登录</a>
       <a class="wx_go" >微信登录</a>
     </div>
   </div>
@@ -46,14 +46,14 @@
         var u = this.unameval;
         var p = this.upwdval;
         console.log(u+"_"+p);
-        this.$http.get("login?uname="+u+"&upwd="+p).then(result=>{
-          console.log(result.body)
-          if(result.body.code == 1){
-            sessionStorage['uname']=result.body.uname
-            Toast(result.body.msg);
+        this.$axios.get("login?uname="+u+"&upwd="+p).then(result=>{
+          console.log(result.data)
+          if(result.data.code == 1){
+            sessionStorage['uname']=result.data.uname
+            Toast(result.data.msg);
             this.$router.push("/");
           }else{
-            Toast(result.body.msg);
+            Toast(result.data.msg);
           }  
         })
       }

@@ -97,14 +97,28 @@
         this.$router.push(url);
       },
       getDetails(){
-        var url="goodslit2"
-        this.$http.get(url).then(result=>{
-          this.phone=result.body.phone;
-          this.pics=result.body.pic
-          console.log(result.body.pic)
-          // this.list = result.body;
+        //var url="goodslist2"
+        // this.$http.get(url).then(result=>{
+        //   this.phone=result.body.phone;
+        //   this.pics=result.body.pic
+        //   console.log(result.body.pic)
+        //   // this.list = result.body;
+        // })
+        var url="http://127.0.0.1:3000/goodslist2"
+        this.$axios.get(url).then(res=>{
+          console.log(res)
+          this.phone=res.data.phone;
+          this.pics=res.data.pic;
+          this.list = res.data;
+
+
+
         })
+
       },
+      
+
+      
       dropdown(){
         console.log(this.drop);
         if(this.drop){
