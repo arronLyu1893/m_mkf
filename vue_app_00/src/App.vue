@@ -10,14 +10,6 @@
 </template>
 
 <style>
-body,html{
-	max-width: 768px;
-	margin: 0 auto;
-	background-color: #fff;
-}
-em,i{
-    font-style: normal;
-}
 .app-container{
 	/*padding-top:40px;
 	padding-bottom:50px;*/
@@ -52,16 +44,16 @@ em,i{
 }
 /* 版权信息 */
 .copyright{
-    height: 1.6rem;
-    line-height: 1.6rem;
-    font-size: 0.45rem;
-    color: #555;
-    text-align: center;
-    text-shadow: 1px 1px 0 rgba(255,255,255,1);
-  } 
-	.copyright::before{
-		content:"";
-		display: block;
-		clear: both;
-	}
+	height: 1.6rem;
+	line-height: 1.6rem;
+	font-size: 0.45rem;
+	color: #555;
+	text-align: center;
+	text-shadow: 1px 1px 0 rgba(255,255,255,1);
+} 
+.copyright::before{
+	content:"";
+	display: block;
+	clear: both;
+}
 </style>
